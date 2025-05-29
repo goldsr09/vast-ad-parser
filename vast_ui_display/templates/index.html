@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+    <title>VAST Parser Display</title>
+</head>
+<body>
+    <h1>VAST Parser Output</h1>
+
+    <form method="post">
+        <label for="vast_url">VAST URL:</label><br>
+        <input type="text" name="vast_url" id="vast_url" size="100" required>
+        <br><br>
+        <button type="submit">Run Parser</button>
+    </form>
+
+    {% if results %}
+        {% if results[0].error %}
+            <p style="color: red;">{{ results[0].error }}</p>
+        {% else %}
+            <h2>Parsed Results:</h2>
+            <table border="1" cellpadding="5">
+                <tr>
+                    <th>Ad ID</th>
+                    <th>Title</th>
+                    <th>Duration</th>
+                    <th>Creative ID</th>
+                    <th>Clickthrough</th>
+                    <th>Media URLs</th>
+                    <th>Channel Name</th>
+                </tr>
+                {% for row in results %}
+                <tr>
+                    <td>{{ row.ad_id }}</td>
+                    <td>{{ row.title }}</td>
+                    <td>{{ row.duration }}</td>
+                    <td>{{ row.creative_id }}</td>
+                    <td>{{ row.clickthrough }}</td>
+                    <td>
+                        <ul>
+                            {% for url in row.media_urls %}
+                            <li>{{ url }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>{{ row.channel_name }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+    {% endif %}
+</body>
+</html>
